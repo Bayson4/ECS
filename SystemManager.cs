@@ -1,4 +1,6 @@
-﻿namespace ECS;
+﻿using ECS.Example.Systems;
+
+namespace ECS;
 
 public class SystemManager
 {
@@ -11,6 +13,7 @@ public class SystemManager
 
     public void RegisterSystems()
     {
+        _systems.Add(new HealthRegenerationSystem());
     }
 
     public void ProcessActions(IReadOnlyList<Archetype> existingArchetypes)

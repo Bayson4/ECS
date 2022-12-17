@@ -1,4 +1,6 @@
-﻿namespace ECS;
+﻿using ECS.Example.Components;
+
+namespace ECS;
 
 public class World
 {
@@ -9,6 +11,8 @@ public class World
     {
         _entityManager = new EntityManager();
         _systemManager = new SystemManager();
+        
+        _entityManager.CreateEntity(new HealthData(50, 100), new RegenerationData(10, 1));
     }
     
     public void Initialize()
