@@ -14,7 +14,7 @@ public class Archetype
 
         foreach (var type in componentTypes)
         {
-            var componentBuffer = Activator.CreateInstance(typeof(ComponentBuffer).MakeGenericType(type), capacity) as ComponentBuffer;
+            var componentBuffer = Activator.CreateInstance(typeof(ComponentBuffer<>).MakeGenericType(type), capacity) as ComponentBuffer;
 
             if (componentBuffer == null)
                 throw new InvalidCastException($"Unable to create buffer for type {type}");
