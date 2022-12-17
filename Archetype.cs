@@ -23,7 +23,7 @@ public class Archetype
         }
     }
 
-    public void AddComponents(Type[] types, ValueType[] components)
+    public void AddComponents(Type[] types, params ValueType[] components)
     {
         for (var i = 0; i < types.Length; i++)
         {
