@@ -5,32 +5,36 @@ public class Archetype
     public ArchetypeIdentifier Identifier { get; }
     public int Count { get; private set; }
 
-    private readonly Dictionary<Type, Array> _components;
+    private readonly Dictionary<Type, ComponentBuffer> _componentStorage;
 
     public Archetype(int capacity, params Type[] componentTypes)
     {
         Identifier = new ArchetypeIdentifier(componentTypes);
-        _components = new Dictionary<Type, Array>(componentTypes.Length);
+        _componentStorage = new Dictionary<Type, ComponentBuffer>(componentTypes.Length);
 
         foreach (var type in componentTypes)
         {
-            var components = Array.CreateInstance(type, capacity);
-            _components.Add(type, components);
+            var componentBuffer = Activator.CreateInstance(typeof(ComponentBuffer).MakeGenericType(type), capacity) as ComponentBuffer;
+
+            if (componentBuffer == null)
+                throw new InvalidCastException($"Unable to create buffer for type {type}");
+            
+            _componentStorage.Add(type, componentBuffer);
         }
     }
 
-    public void AddComponents(Type[] types, IComponent[] components)
+    public void AddComponents(Type[] types, ValueType[] components)
     {
         for (var i = 0; i < types.Length; i++)
         {
-            var componentArray = _components[types[i]];
-            componentArray.SetValue(components[i], Count);
+            var componentArray = _componentStorage[types[i]];
+            componentArray.Components[Count] = components[i];
         }
         Count++;
     }
 
     public T[] GetComponentsArray<T>() 
     {
-        return (T[])_components[typeof(T)];
+        return (T[])_componentStorage[typeof(T)].Components;
     }
 }

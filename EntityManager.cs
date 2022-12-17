@@ -13,7 +13,7 @@ public class EntityManager
         _archetypes = new List<Archetype>();
     }
 
-    public void CreateEntity(IComponent[] components)
+    public void CreateEntity(ValueType[] components)
     {
         var types = components.Select(c => c.GetType()).ToArray();
         var identifier = new ArchetypeIdentifier(types);
