@@ -18,7 +18,7 @@ public class EntityManager
         var types = components.Select(c => c.GetType()).ToArray();
         var identifier = new ArchetypeIdentifier(types);
         var archetype = GetArchetype(identifier, types);
-        archetype.AddComponents(types, components);
+        archetype.CreateEntity(types, components);
     }
 
     private Archetype GetArchetype(ArchetypeIdentifier identifier, Type[] types)
